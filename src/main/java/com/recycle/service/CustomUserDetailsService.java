@@ -1,6 +1,6 @@
 package com.recycle.service;
 
-import com.recycle.dao.UserDao;
+import com.recycle.dao.StaffDao;
 import com.recycle.domain.Role;
 import com.recycle.domain.Staff;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,12 +19,12 @@ import java.util.Collection;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Resource
-    private UserDao userDao;
+    private StaffDao staffDao;
 
 
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-        Staff staff = userDao.findUserByAccount(account);
+        Staff staff = staffDao.findStaffByAccount(account);
         if (staff == null) {
             throw new UsernameNotFoundException("Account " + account + " not found");
         }
