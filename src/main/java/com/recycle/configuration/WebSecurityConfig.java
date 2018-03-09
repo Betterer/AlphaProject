@@ -9,6 +9,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -32,11 +33,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        //解决静态资源被拦截的问题
+        web.ignoring().antMatchers(new String[]{"/js/**","/css/**","/img/**","/images/**","/fonts/**","/**/favicon.ico"});
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //允许所有用户访问"/"和"/home"
+        //***************************************  设置登录/登出和操作成功之后的跳转页面 ****************************************//
         http.authorizeRequests()
-                .antMatchers(new String[]{"/js/**","/css/**","/img/**","/images/**","/fonts/**","/**/favicon.ico"}).permitAll()
                 //其他地址的访问均需验证权限
                 .anyRequest().authenticated()
                 .and()
