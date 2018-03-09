@@ -23,6 +23,8 @@
         <link href="css/ie.css" rel="stylesheet">
         <link href="css/ie9.css" rel="stylesheet">
         <link href="img/favicon.ico" rel="shortcut icon">
+
+        <script src="js/jquery-1.9.1.min.js"></script>
         <#nested>
     </head>
     </#macro>
@@ -312,8 +314,9 @@
                                     <a href="#"><i class="halflings-icon user"></i> Profile</a>
                                 </li>
                                 <li>
-                                    <form action="/logout" method="post">
-                                        <a href="/logout"><i class="halflings-icon off"></i> Logout</a>
+                                    <a href="javascript:void(0);" id="logout"><i class="halflings-icon off"></i> Logout</a>
+                                    <form id="logout_form" action="/logout" method="post" style="display: none;">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     </form>
                                 </li>
                             </ul>
@@ -325,6 +328,11 @@
             </div>
         </div>
     </div>
+    <script>
+        $("#logout").click(function(){
+            $("#logout_form").submit();
+        })
+    </script>
     </#macro>
 
 
@@ -361,7 +369,6 @@
 
 <#-- javascript -->
     <#macro javascript>
-    <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/jquery-migrate-1.0.0.min.js"></script>
     <script src="js/jquery-ui-1.10.0.custom.min.js"></script>
     <script src="js/jquery.ui.touch-punch.js"></script>
