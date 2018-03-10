@@ -1,5 +1,6 @@
 package com.recycle.configuration;
 
+import com.recycle.handler.LoginSuccessHandler;
 import com.recycle.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //指定登录页是"/login"
                 .loginPage("/login")
-                .defaultSuccessUrl("/index")//登录成功后默认跳转到"/index"
+                .defaultSuccessUrl("/")//登录成功后默认跳转到"/index"
+                .successHandler(loginSuccessHandler())
                 .permitAll()
                 .and()
                 .logout()
@@ -88,5 +90,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CustomUserDetailsService customUserDetailsService(){
         return new CustomUserDetailsService();
+    }
+
+
+    /**
+     * 用户登录成功后的业务处理类
+     * @return
+     */
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler(){
+        return new LoginSuccessHandler();
     }
 }

@@ -1,10 +1,13 @@
 package com.recycle.controller;
 
+import com.recycle.domain.Staff;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Map;
 
@@ -17,29 +20,26 @@ public class IndexController {
 
     Log log = LogFactory.getLog(IndexController.class);
 
+    @Resource
+    private RedisTemplate redisTemplate;
+
     @GetMapping("/welcome")
     public String welcome(Map<String,Object> resultMap){
         resultMap.put("time", new Date());
         resultMap.put("message", "测试freemarker");
+
         return "welcome";
-    }
-
-
-    /**
-     * 登录页面
-     * @return
-     */
-    @GetMapping("/login")
-    public String loginPage(){
-        return "login";
     }
 
     /**
      * 首页
      * @return
      */
-    @GetMapping("/index")
-    public String index(){
+    @GetMapping("/")
+    public String index(Map<String,Object> resultMap){
+        Staff staff = (Staff) redisTemplate.opsForValue().get("staff");
+        System.out.println(staff);
+        resultMap.put("staff",staff);
         return "index";
     }
 

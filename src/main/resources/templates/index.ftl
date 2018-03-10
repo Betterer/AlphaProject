@@ -3,7 +3,7 @@
 </@template.head>
 <@template.body>
     <!-- start: Header -->
-    <@template.navbar/>
+    <@template.navbar staff="${staff.nickname}"></@template.navbar>
     <!-- start: Header -->
     <div class="container-fluid-full">
         <div class="row-fluid">
@@ -13,6 +13,7 @@
             <!-- 内容开始 -->
             <div id="content" class="span10">
                 <!--导航开始-->
+                <!--
                 <ul class="breadcrumb">
                     <li>
                         <i class="icon-home"></i>
@@ -21,6 +22,7 @@
                     </li>
                     <li><a href="#">index</a></li>
                 </ul>
+                -->
                 <!--导航结束-->
                 <div class="row-fluid">
                     <a class="quick-button metro yellow span2">
@@ -51,9 +53,7 @@
                         <i class="icon-calendar"></i>
                         <p>Calendar</p>
                     </a>
-
                     <div class="clearfix"></div>
-
                 </div>
             </div>
             <!-- 内容结束 -->

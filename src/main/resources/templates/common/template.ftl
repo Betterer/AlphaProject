@@ -39,7 +39,7 @@
 
 
 <#-- top-navbar -->
-    <#macro navbar>
+    <#macro navbar staff>
         <div class="navbar">
         <div class="navbar-inner">
             <div class="container-fluid">
@@ -219,7 +219,7 @@
                                         <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
                                         <span class="header">
 											<span class="from">
-										    	Dennis Ji
+										    	${staff}
 										     </span>
 											<span class="time">
 										    	6 min
@@ -303,7 +303,7 @@
                         <!-- start: User Dropdown -->
                         <li class="dropdown">
                             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="halflings-icon white user"></i> Dennis Ji
+                                <i class="halflings-icon white user"></i>${staff}
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
