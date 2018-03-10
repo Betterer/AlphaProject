@@ -32,13 +32,21 @@ public class IndexController {
     }
 
     /**
-     * 首页
+     * 首页:跳转
      * @return
      */
     @GetMapping("/")
+    public String index(){
+        return "redirect:/index";
+    }
+
+    /**
+     * 首页
+     * @return
+     */
+    @GetMapping("/index")
     public String index(Map<String,Object> resultMap){
         Staff staff = (Staff) redisTemplate.opsForValue().get("staff");
-        System.out.println(staff);
         resultMap.put("staff",staff);
         return "index";
     }

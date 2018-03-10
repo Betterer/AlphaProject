@@ -1,10 +1,15 @@
 <#compress>
-
+    <!-- 指定项目路径,方便静态文件读取-->
+    <#assign base = "http://localhost:8080/" />
+    <!-- 引入Spring Security 标签,控制显示-->
+    <#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#-- 头部信息 -->
     <#macro head title>
     <!DOCTYPE html>
     <html lang="en">
     <head>
+
+
         <!-- start: Meta -->
         <meta charset="utf-8">
         <title>${title}</title>
@@ -15,16 +20,17 @@
         <!-- start: Mobile Specific -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="css/style.css" rel="stylesheet">
-        <link href="css/style-responsive.css" rel="stylesheet">
-        <link href="css/ie.css" rel="stylesheet">
-        <link href="css/ie9.css" rel="stylesheet">
-        <link href="img/favicon.ico" rel="shortcut icon">
+        <link href="${base}css/bootstrap.min.css" rel="stylesheet">
+        <link href="${base}css/font-awesome.min.css" rel="stylesheet">
+        <link href="${base}css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="${base}css/style.css" rel="stylesheet">
+        <link href="${base}css/style-responsive.css" rel="stylesheet">
+        <link href="${base}css/ie.css" rel="stylesheet">
+        <link href="${base}css/ie9.css" rel="stylesheet">
+        <link href="${base}img/favicon.ico" rel="shortcut icon">
 
-        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="${base}js/jquery-1.9.1.min.js"></script>
+        <script src="${base}js/common/menuAndNavbar.js"></script>
         <#nested>
     </head>
     </#macro>
@@ -216,7 +222,7 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
+                                        <span class="avatar"><img src="${base}img/avatar.jpg" alt="Avatar"></span>
                                         <span class="header">
 											<span class="from">
 										    	${staff}
@@ -232,7 +238,7 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
+                                        <span class="avatar"><img src="${base}img/avatar.jpg" alt="Avatar"></span>
                                         <span class="header">
 											<span class="from">
 										    	Dennis Ji
@@ -248,7 +254,7 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
+                                        <span class="avatar"><img src="${base}img/avatar.jpg" alt="Avatar"></span>
                                         <span class="header">
 											<span class="from">
 										    	Dennis Ji
@@ -264,7 +270,7 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
+                                        <span class="avatar"><img src="${base}img/avatar.jpg" alt="Avatar"></span>
                                         <span class="header">
 											<span class="from">
 										    	Dennis Ji
@@ -280,7 +286,7 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <span class="avatar"><img src="img/avatar.jpg" alt="Avatar"></span>
+                                        <span class="avatar"><img src="${base}img/avatar.jpg" alt="Avatar"></span>
                                         <span class="header">
 											<span class="from">
 										    	Dennis Ji
@@ -328,11 +334,11 @@
             </div>
         </div>
     </div>
-    <script>
-        $("#logout").click(function(){
-            $("#logout_form").submit();
-        })
-    </script>
+    <#--<script>-->
+        <#--$("#logout").click(function(){-->
+            <#--$("#logout_form").submit();-->
+        <#--})-->
+    <#--</script>-->
     </#macro>
 
 
@@ -341,16 +347,18 @@
         <div id="sidebar-left" class="span2">
         <div class="nav-collapse sidebar-nav">
             <ul class="nav nav-tabs nav-stacked main-menu">
-                <li>
-                    <a class="dropmenu" href="javascript:void(0);"><i class="icon-cog"></i><span class="hidden-tablet">系统管理</span><span class="label label-important"> 3 </span></a>
-                    <ul>
-                        <li><a class="submenu" href="#"><i class="icon-file-alt"></i><span class="hidden-tablet"> 系统账户</span></a></li>
-                        <li><a class="submenu" href="#"><i class="icon-file-alt"></i><span class="hidden-tablet"> 角色列表</span></a></li>
-                        <li><a class="submenu" href="#"><i class="icon-file-alt"></i><span class="hidden-tablet"> 权限列表</span></a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><i class="icon-user"></i><span class="hidden-tablet"> 用户管理</span></a></li>
-                <li><a href="#"><i class="icon-home"></i><span class="hidden-tablet"> 机构管理</span></a></li>
+                <@security.authorize access="hasRole('ROLE_ADMIN')">
+                    <li>
+                        <a class="dropmenu" href="javascript:void(0);"><i class="icon-cog"></i><span class="hidden-tablet">系统管理</span><span class="label label-important"> 3 </span></a>
+                        <ul>
+                            <li><a class="submenu choose_a" href="/staff/list"><i class="icon-user-md"></i><span class="hidden-tablet"> 系统账户</span></a></li>
+                            <li><a class="submenu choose_a" href="#"><i class="icon-group"></i><span class="hidden-tablet"> 角色列表</span></a></li>
+                            <li><a class="submenu choose_a" href="#"><i class="icon-lock"></i><span class="hidden-tablet"> 权限列表</span></a></li>
+                        </ul>
+                    </li>
+                </@security.authorize>
+                <li><a href="#" class="choose_a"><i class="icon-user"></i><span class="hidden-tablet"> 用户管理</span></a></li>
+                <li><a href="#" class="choose_a"><i class="icon-home"></i><span class="hidden-tablet"> 机构管理</span></a></li>
             </ul>
         </div>
     </div>
@@ -369,35 +377,35 @@
 
 <#-- javascript -->
     <#macro javascript>
-    <script src="js/jquery-migrate-1.0.0.min.js"></script>
-    <script src="js/jquery-ui-1.10.0.custom.min.js"></script>
-    <script src="js/jquery.ui.touch-punch.js"></script>
-    <script src="js/modernizr.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.cookie.js"></script>
-    <script src='js/fullcalendar.min.js'></script>
-    <script src='js/jquery.dataTables.min.js'></script>
-    <script src="js/excanvas.js"></script>
-    <script src="js/jquery.flot.js"></script>
-    <script src="js/jquery.flot.pie.js"></script>
-    <script src="js/jquery.flot.stack.js"></script>
-    <script src="js/jquery.flot.resize.min.js"></script>
-    <script src="js/jquery.chosen.min.js"></script>
-    <script src="js/jquery.uniform.min.js"></script>
-    <script src="js/jquery.cleditor.min.js"></script>
-    <script src="js/jquery.noty.js"></script>
-    <script src="js/jquery.elfinder.min.js"></script>
-    <script src="js/jquery.raty.min.js"></script>
-    <script src="js/jquery.iphone.toggle.js"></script>
-    <script src="js/jquery.uploadify-3.1.min.js"></script>
-    <script src="js/jquery.gritter.min.js"></script>
-    <script src="js/jquery.imagesloaded.js"></script>
-    <script src="js/jquery.masonry.min.js"></script>
-    <script src="js/jquery.knob.modified.js"></script>
-    <script src="js/jquery.sparkline.min.js"></script>
-    <script src="js/counter.js"></script>
-    <script src="js/retina.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="${base}js/jquery-migrate-1.0.0.min.js"></script>
+    <script src="${base}js/jquery-ui-1.10.0.custom.min.js"></script>
+    <script src="${base}js/jquery.ui.touch-punch.js"></script>
+    <script src="${base}js/modernizr.js"></script>
+    <script src="${base}js/bootstrap.min.js"></script>
+    <script src="${base}js/jquery.cookie.js"></script>
+    <script src="${base}js/fullcalendar.min.js"></script>
+    <script src="${base}js/jquery.dataTables.min.js"></script>
+    <script src="${base}js/excanvas.js"></script>
+    <script src="${base}js/jquery.flot.js"></script>
+    <script src="${base}js/jquery.flot.pie.js"></script>
+    <script src="${base}js/jquery.flot.stack.js"></script>
+    <script src="${base}js/jquery.flot.resize.min.js"></script>
+    <script src="${base}js/jquery.chosen.min.js"></script>
+    <script src="${base}js/jquery.uniform.min.js"></script>
+    <script src="${base}js/jquery.cleditor.min.js"></script>
+    <script src="${base}js/jquery.noty.js"></script>
+    <script src="${base}js/jquery.elfinder.min.js"></script>
+    <script src="${base}js/jquery.raty.min.js"></script>
+    <script src="${base}js/jquery.iphone.toggle.js"></script>
+    <script src="${base}js/jquery.uploadify-3.1.min.js"></script>
+    <script src="${base}js/jquery.gritter.min.js"></script>
+    <script src="${base}js/jquery.imagesloaded.js"></script>
+    <script src="${base}js/jquery.masonry.min.js"></script>
+    <script src="${base}js/jquery.knob.modified.js"></script>
+    <script src="${base}js/jquery.sparkline.min.js"></script>
+    <script src="${base}js/counter.js"></script>
+    <script src="${base}js/retina.js"></script>
+    <script src="${base}js/custom.js"></script>
     <#nested>
 </#macro>
 
